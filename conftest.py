@@ -18,7 +18,6 @@ def get_chrome_options():
     :return: options
     """
     options = ChromeOptions()
-    options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     options.add_argument('--start-maximized')
     return options
 
