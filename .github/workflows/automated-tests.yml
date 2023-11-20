@@ -1,8 +1,9 @@
 name: Automated Tests
 on:
-  [repository_dispatch, push]
-    branch:
-      - main
+  repository_dispatch:
+    push:
+      branches:
+        - main
 
 jobs:
   test:
