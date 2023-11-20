@@ -4,7 +4,7 @@ on: [repository_dispatch]
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
       TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
@@ -29,9 +29,13 @@ jobs:
           git commit -m "Auto trigger from submodule"
           git push
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          choco install python
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
       - name: Run Pytest
-        run: pytest
+        run: |
+          pytest
       - name: Upload coverage reports
         uses: actions/upload-artifact@v2
         with:
