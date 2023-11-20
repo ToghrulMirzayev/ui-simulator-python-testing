@@ -1,0 +1,48 @@
+name: Automated Tests
+on:
+  [repository_dispatch]
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+    steps:
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS }}
+          submodules: true
+      - name: Pull submodule
+        run: |
+          git pull --recurse-submodules
+          git submodule update --init --recursive --remote
+      - name: Push changes
+        run: |
+          git config --global user.name 'ToghrulMirzayev'
+          git config --global user.email 'togrul.mirzoev@gmail.com'
+          git add .
+          git commit -m "Auto trigger from submodule"
+          git push
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Pytest
+        run: pytest
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: pytest-pyreport
+          path: pyreport.html
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.REPO_ACCESS }}
+          publish_dir: ./public

@@ -1,0 +1,3 @@
+[submodule "ui_simulator"]
+	path = ui_simulator
+	url = https://github.com/ToghrulMirzayev/ui-simulator.git
