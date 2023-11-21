@@ -28,21 +28,28 @@ jobs:
           git add .
           git commit -m "Auto trigger from submodule"
           git push
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: Install dependencies
         run: |
-          choco install python
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Pytest
         run: |
           pytest
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@v2
+      - name: Install rsync 📚
+        run: |
+          choco install rsync
+      - name: Move Pyreport to Public Directory
+        run: |
+          mkdir public
+          move pyreport.html public/
+      - name: Deploy to Github Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          name: pytest-pyreport
-          path: pyreport.html
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.REPO_ACCESS }}
-          publish_dir: ./public
+          token: ${{ secrets.REPO_ACCESS }}
+          branch: gh-pages
+          folder: public
+          clean: true
