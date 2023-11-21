@@ -53,8 +53,8 @@ jobs:
         run: |
           pytest
       - name: Install rsync 📚
-          run: |
-            sudo apt-get install rsync
+        run: |
+          sudo apt-get install rsync
       - name: Move Pyreport to Public Directory
         run: |
           mkdir public
