@@ -18,7 +18,7 @@ def get_chrome_options():
     :return: options
     """
     options = ChromeOptions()
-    options.add_argument('--start-maximized')
+    options.add_argument('--headless')
     return options
 
 
