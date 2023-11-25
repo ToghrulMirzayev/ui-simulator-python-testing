@@ -28,10 +28,13 @@ jobs:
           git add .
           git commit -m "Auto trigger from submodule"
           git push
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
         with:
-          python-version: 3.9
+          python-version: "3.10"
+      - name: Install Chrome
+          run: sudo apt-get install google-chrome-stable
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -59,8 +62,16 @@ jobs:
         run: |
           mkdir public
           mv pyreport.html public/
-      - name: Deploy to Github Pages
+      - name: Checkout (copy) gh-pages repository to GitHub runner
+        uses: actions/checkout@v2
+        if: always()
+        with:
+          ref: gh-pages
+          path: ./.github/gh-pages
+
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
+        if: always()
         with:
           token: ${{ secrets.TOKEN_CI }}
           branch: gh-pages
