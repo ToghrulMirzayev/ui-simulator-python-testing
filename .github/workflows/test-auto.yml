@@ -6,9 +6,9 @@ jobs:
   ui-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-      env:
-        TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+    env:
+      TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
     steps:
 
