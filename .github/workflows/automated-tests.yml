@@ -39,20 +39,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Install Chrome
-        run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb
-          sudo apt-get install -f
-      - name: Install ChromeDriver
-        run: |
-          LATEST=$(wget -q -O - https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-          wget https://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
-          rm chromedriver_linux64.zip
-      - name: Run Pytest with ChromeDriver
+      - name: Run Pytest
         run: |
           pytest
       - name: Install rsync 📚
@@ -62,7 +49,7 @@ jobs:
         run: |
           mkdir public
           mv pyreport.html public/
-      - name: Checkout (copy) gh-pages repository to GitHub runner
+      - name: Checkout gh-pages
         uses: actions/checkout@v2
         if: always()
         with:
