@@ -42,3 +42,5 @@ Check below guide to set up secrets locally.
     * `pytest -k "test_something"`
   * To send test result to the telegram channel
     * `pytest --telegram-pyreport <chat id> <bot token> --server <URL>`
+* Test Results
+  * https://toghrulmirzayev.github.io/ui-simulator-python-testing/pyreport.html
